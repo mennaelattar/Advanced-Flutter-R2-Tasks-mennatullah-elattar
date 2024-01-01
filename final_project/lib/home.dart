@@ -782,6 +782,7 @@ class _HomePageState extends State<HomePage> {
                       height: 150,
                     ),
                     Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 5),
@@ -843,7 +844,51 @@ class _HomePageState extends State<HomePage> {
                         Padding(
                           padding: const EdgeInsets.symmetric(vertical: 5),
                           child: Row(
-                            children: [Text("jb"), Text("mhvjh")],
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    WidgetSpan(
+                                      child: Icon(
+                                        Icons.alarm,
+                                        size: 14,
+                                        color:
+                                            Color.fromARGB(255, 162, 164, 175),
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 162, 164, 175)),
+                                      text: "10 mins",
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(
+                                width: 20,
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    WidgetSpan(
+                                      child: Icon(
+                                        Icons.alarm,
+                                        size: 14,
+                                        color:
+                                            Color.fromARGB(255, 162, 164, 175),
+                                      ),
+                                    ),
+                                    TextSpan(
+                                      style: TextStyle(
+                                          color: Color.fromARGB(
+                                              255, 162, 164, 175)),
+                                      text: "1 Serving",
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                       ],
