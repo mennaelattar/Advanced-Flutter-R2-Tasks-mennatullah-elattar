@@ -766,6 +766,91 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ))
               ]),
+              Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                elevation: 0,
+                color: Color.fromARGB(255, 233, 234, 240),
+                child: SizedBox(
+                  width: 300,
+                  height: 150,
+                  child: Row(children: [
+                    Image.asset(
+                      "assets/dishes/Assests/460x533_ChickenThighs_2 copy.png",
+                      width: 100,
+                      height: 150,
+                    ),
+                    Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Text(
+                            "Breakfast",
+                            style: TextStyle(
+                                color: Color(0xff1F95B3), fontSize: 13),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Text(
+                            "French Toast with Berries",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 16,
+                                fontWeight: FontWeight.w400),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Row(
+                            children: [
+                              Icon(
+                                Icons.star,
+                                color: Color(0xffF55A00),
+                                size: 20,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Color(0xffF55A00),
+                                size: 20,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Color(0xffF55A00),
+                                size: 20,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Color(0xffF55A00),
+                                size: 20,
+                              ),
+                              Icon(
+                                Icons.star,
+                                color: Color(0xffF55A00),
+                                size: 20,
+                              ),
+                            ],
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Text(
+                            "120 calories",
+                            style: TextStyle(color: Color(0xffF55A00)),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 5),
+                          child: Row(
+                            children: [Text("jb"), Text("mhvjh")],
+                          ),
+                        ),
+                      ],
+                    )
+                  ]),
+                ),
+              ),
             ],
           ),
         )));
