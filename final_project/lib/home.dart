@@ -2,11 +2,13 @@ import 'dart:convert';
 
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
-import 'package:final_project/cubit/adds_home_page_cubit.dart';
 import 'package:final_project/models/ad.model.dart';
+import 'package:final_project/models/faviourate.dart';
+import 'package:final_project/models/recipe.dart';
+import 'package:final_project/viewModel/appViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:provider/provider.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,52 +19,61 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   List<Ad> adsList = [];
-  // void getAds() async {
-  //   var adsData = await rootBundle.loadString('assets/data/sample.json');
-  //   var dataDecoded =
-  //       List<Map<String, dynamic>>.from(jsonDecode(adsData)['ads']);
-  //   adsList = dataDecoded.map((e) => Ad.fromJson(e)).toList();
-  //   setState(() {});
-  // }
+  void getAds() async {
+    var adsData = await rootBundle.loadString('assets/data/sample.json');
+    var dataDecoded =
+        List<Map<String, dynamic>>.from(jsonDecode(adsData)['ads']);
+    adsList = dataDecoded.map((e) => Ad.fromJson(e)).toList();
+    setState(() {});
+  }
 
-  // @override
-  // void initState() {
-  //   getAds();
-  //   // TODO: implement initState
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    getAds();
+    // TODO: implement initState
+    super.initState();
+  }
 
   CarouselController buttonCarouselController = CarouselController();
   int currentIndexPage = 0;
+  bool pressFaviourateButton = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          elevation: 0,
-          leading: Padding(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+          child: Icon(
+            Icons.menu,
+            color: Colors.black,
+          ),
+        ),
+        actions: [
+          Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
             child: Icon(
-              Icons.menu,
+              Icons.notification_add,
               color: Colors.black,
             ),
-          ),
-          actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-              child: Icon(
-                Icons.notification_add,
-                color: Colors.black,
-              ),
-            )
-          ],
-        ),
-        body: SafeArea(
+          )
+        ],
+      ),
+      body: ChangeNotifierProvider(
+        create: (context) => AppViewModel(),
+        child: SafeArea(
             child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: ListView(
             padding: EdgeInsets.symmetric(vertical: 20),
             children: [
+              Consumer<AppViewModel>(builder: (context, app_view_model, child) {
+                return Text(
+                  "Faviourite Recipe : ${app_view_model.favouriteListCount()}",
+                  style: TextStyle(color: Colors.red, fontSize: 18),
+                );
+              }),
               Text(
                 "Bonjour,Emma",
                 style: TextStyle(color: Color(0xffBEC3CF), fontSize: 18),
@@ -114,101 +125,81 @@ class _HomePageState extends State<HomePage> {
               SizedBox(
                 height: 30,
               ),
-              BlocBuilder<AddsHomePageCubit, List<Ad>>(
-                  builder: (context, state) {
-                return Column(
-                  children: [
-                    Stack(
-                      children: [
-                        CarouselSlider(
-                          options: CarouselOptions(
-                            height: 200.0,
-                            autoPlay: true,
-                            enlargeCenterPage: true,
-                            enlargeFactor: 0.4,
-                            enlargeStrategy: CenterPageEnlargeStrategy.height,
-                            viewportFraction: 0.7,
-                            initialPage: 0,
-                            onPageChanged: (index, reason) {
-                              currentIndexPage = index;
-                              setState(() {});
-                            },
-                          ),
-                          carouselController: buttonCarouselController,
-                          items: adsList.map((ad) {
-                            return Container(
-                              width: MediaQuery.of(context).size.width,
-                              margin: EdgeInsets.symmetric(horizontal: 5.0),
-                              decoration: BoxDecoration(
-                                  image: DecorationImage(
-                                      image: NetworkImage(ad.image!))),
-                              child: Text(
-                                ad.title.toString(),
-                                style: TextStyle(
-                                  color: Colors.white,
-                                  background: Paint()
-                                    ..color = Color(0xffF55A00)
-                                    ..strokeWidth = 20
-                                    ..style = PaintingStyle.stroke,
+              Column(
+                children: [
+                  Stack(
+                    children: [
+                      CarouselSlider(
+                        options: CarouselOptions(
+                          height: 200.0,
+                          autoPlay: true,
+                          enlargeCenterPage: true,
+                          enlargeFactor: 0.4,
+                          enlargeStrategy: CenterPageEnlargeStrategy.height,
+                          viewportFraction: 0.7,
+                          initialPage: 0,
+                          onPageChanged: (index, reason) {
+                            currentIndexPage = index;
+                            setState(() {});
+                          },
+                        ),
+                        carouselController: buttonCarouselController,
+                        items: adsList.map((ad) {
+                          return Container(
+                            width: MediaQuery.of(context).size.width,
+                            margin: EdgeInsets.symmetric(horizontal: 5.0),
+                            decoration: BoxDecoration(
+                                image: DecorationImage(
+                                    image: NetworkImage(ad.image!))),
+                            child: Text(
+                              ad.title.toString(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                background: Paint()
+                                  ..color = Color(0xffF55A00)
+                                  ..strokeWidth = 20
+                                  ..style = PaintingStyle.stroke,
+                              ),
+                            ),
+                          );
+                        }).toList(),
+                      ),
+                      Container(
+                          padding: EdgeInsets.symmetric(vertical: 70),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Expanded(
+                                flex: 1,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Color(0xffF55A00)),
+                                  onPressed: () =>
+                                      buttonCarouselController.previousPage(
+                                          duration: Duration(milliseconds: 300),
+                                          curve: Curves.linear),
+                                  child: Icon(Icons.arrow_back),
                                 ),
                               ),
-                            );
-                          }).toList(),
-                        ),
-                        Container(
-                            padding: EdgeInsets.symmetric(vertical: 70),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Expanded(
-                                  flex: 1,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color(0xffF55A00)),
-                                    onPressed: () =>
-                                        buttonCarouselController.previousPage(
-                                            duration:
-                                                Duration(milliseconds: 300),
-                                            curve: Curves.linear),
-                                    child: Icon(Icons.arrow_back),
-                                  ),
+                              Expanded(flex: 4, child: SizedBox()),
+                              Expanded(
+                                flex: 1,
+                                child: ElevatedButton(
+                                  style: ElevatedButton.styleFrom(
+                                      backgroundColor: Color(0xffF55A00)),
+                                  onPressed: () =>
+                                      buttonCarouselController.nextPage(
+                                          duration: Duration(milliseconds: 300),
+                                          curve: Curves.linear),
+                                  child: Icon(Icons.arrow_forward),
                                 ),
-                                Expanded(flex: 4, child: SizedBox()),
-                                Expanded(
-                                  flex: 1,
-                                  child: ElevatedButton(
-                                    style: ElevatedButton.styleFrom(
-                                        backgroundColor: Color(0xffF55A00)),
-                                    onPressed: () =>
-                                        buttonCarouselController.nextPage(
-                                            duration:
-                                                Duration(milliseconds: 300),
-                                            curve: Curves.linear),
-                                    child: Icon(Icons.arrow_forward),
-                                  ),
-                                )
-                              ],
-                            ))
-                      ],
-                    ),
-                    DotsIndicator(
-                      dotsCount: adsList.length,
-                      position: currentIndexPage,
-                      onTap: (position) async {
-                        await buttonCarouselController.animateToPage(position);
-                        setState(() {});
-                      },
-                      decorator: DotsDecorator(
-                        size: const Size.square(9.0),
-                        activeSize: const Size(18.0, 9.0),
-                        activeColor: Color(0xffF55A00),
-                        activeShape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(5.0)),
-                      ),
-                    ),
-                  ],
-                );
-              }),
+                              )
+                            ],
+                          ))
+                    ],
+                  ),
+                ],
+              ),
               SizedBox(
                 height: 30,
               ),
@@ -267,7 +258,34 @@ class _HomePageState extends State<HomePage> {
                                         flex: 1,
                                         child: Align(
                                             alignment: Alignment.topLeft,
-                                            child: Icon(Icons.heart_broken)),
+                                            child: Consumer<AppViewModel>(
+                                                builder: (context,
+                                                    app_view_model, child) {
+                                              return IconButton(
+                                                icon: Icon(
+                                                  Icons.favorite,
+                                                  color: pressFaviourateButton
+                                                      ? Colors.red
+                                                      : Colors.grey,
+                                                ),
+                                                onPressed: () {
+                                                  pressFaviourateButton = true;
+                                                  //get count befor add
+                                                  print(app_view_model
+                                                      .favouriteListCount());
+                                                  int recipe_id = 1;
+                                                  int user_id = 1;
+                                                  Favourite new_fev = Favourite(
+                                                      recipe_id, user_id);
+                                                  app_view_model
+                                                      .addToFaviourateList(
+                                                          new_fev);
+                                                  //get count after add
+                                                  print(app_view_model
+                                                      .favouriteListCount());
+                                                },
+                                              );
+                                            })),
                                       ),
                                       Expanded(
                                         flex: 5,
@@ -898,6 +916,8 @@ class _HomePageState extends State<HomePage> {
               ),
             ],
           ),
-        )));
+        )),
+      ),
+    );
   }
 }
