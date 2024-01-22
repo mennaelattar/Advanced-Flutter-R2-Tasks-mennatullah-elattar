@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="212" height="58" viewBox="0 0 212 58">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #fff;
+        font-size: 40px;
+        font-family: LemongrassScript-Regular, Lemongrass Script;
+      }
+    </style>
+  </defs>
+  <text id="Daily_Recipe" data-name="Daily Recipe" class="cls-1" transform="translate(104 38)"><tspan x="-103.98" y="0">Daily Recipe</tspan></text>
+</svg>
