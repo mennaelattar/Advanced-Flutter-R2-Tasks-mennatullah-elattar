@@ -70,14 +70,14 @@ class TodayFreshRecipeProvider extends ChangeNotifier {
             .collection('today_fresh_recipes')
             .doc(recipeId)
             .update({
-          "user_ids": FieldValue.arrayUnion(['4'])
+          "favourite_user_ids": FieldValue.arrayUnion(['4'])
         });
       } else {
         var result = await FirebaseFirestore.instance
             .collection('today_fresh_recipes')
             .doc(recipeId)
             .update({
-          "user_ids": FieldValue.arrayUnion(['4'])
+          "favourite_user_ids": FieldValue.arrayUnion(['4'])
         });
       }
       notifyListeners();
