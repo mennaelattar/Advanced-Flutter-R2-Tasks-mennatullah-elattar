@@ -49,9 +49,11 @@ class TodayFreshRecipeProvider extends ChangeNotifier {
           .get();
 
       if (result.docs.isNotEmpty) {
+        print('not null');
         _recipeList = List<Recipe>.from(result.docs
             .map((document) => Recipe.fromJson(document.data(), document.id)));
       } else {
+        print('null');
         _recipeList = [];
       }
       notifyListeners();
@@ -68,14 +70,14 @@ class TodayFreshRecipeProvider extends ChangeNotifier {
             .collection('today_fresh_recipes')
             .doc(recipeId)
             .update({
-          "user_ids": FieldValue.arrayUnion(['3'])
+          "user_ids": FieldValue.arrayUnion(['4'])
         });
       } else {
         var result = await FirebaseFirestore.instance
             .collection('today_fresh_recipes')
             .doc(recipeId)
             .update({
-          "user_ids": FieldValue.arrayUnion(['3'])
+          "user_ids": FieldValue.arrayUnion(['4'])
         });
       }
       notifyListeners();
