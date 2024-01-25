@@ -4,7 +4,6 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:recipe_flutter_app/models/faviourate.dart';
-import 'package:recipe_flutter_app/models/recipe.dart';
 import 'package:recipe_flutter_app/viewModel/appViewModel.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';

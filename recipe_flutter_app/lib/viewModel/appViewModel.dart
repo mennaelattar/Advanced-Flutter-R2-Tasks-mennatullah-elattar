@@ -1,5 +1,4 @@
 import 'package:recipe_flutter_app/models/faviourate.dart';
-import 'package:recipe_flutter_app/models/recipe.dart';
 import 'package:flutter/material.dart';
 
 class AppViewModel extends ChangeNotifier {

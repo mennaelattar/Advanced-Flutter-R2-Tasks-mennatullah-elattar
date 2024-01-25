@@ -5,6 +5,7 @@ import 'package:recipe_flutter_app/firebase_ex/add.dart';
 import 'package:recipe_flutter_app/pages/home.dart';
 import 'package:recipe_flutter_app/pages/register.dart';
 import 'package:recipe_flutter_app/provider/ads_provider.dart';
+import 'package:recipe_flutter_app/provider/ingredient.provider.dart';
 import 'package:recipe_flutter_app/provider/today_fresh_recipes_provider.dart';
 import 'firebase_options.dart';
 
@@ -16,7 +17,8 @@ void main() async {
   runApp(MultiProvider(
     providers: [
       ChangeNotifierProvider(create: (context) => AdsProvider()),
-      ChangeNotifierProvider(create: (context) => TodayFreshRecipeProvider())
+      ChangeNotifierProvider(create: (context) => TodayFreshRecipeProvider()),
+      ChangeNotifierProvider(create: (context) => IngredientsProvider())
     ],
     child: const MyApp(),
   ));

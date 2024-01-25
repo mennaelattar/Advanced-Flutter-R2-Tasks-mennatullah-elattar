@@ -13,6 +13,7 @@ class TodayFreshRecipeWidget extends StatefulWidget {
 
 class _TodayFreshRecipeWidgetState extends State<TodayFreshRecipeWidget> {
   List<QueryDocumentSnapshot> data_list = [];
+  bool isAddFav = false;
 
   @override
   void initState() {
@@ -33,7 +34,7 @@ class _TodayFreshRecipeWidgetState extends State<TodayFreshRecipeWidget> {
           height: 380,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
-            itemCount: today_recipe_prov.data_list.length,
+            itemCount: 2,
             itemBuilder: (BuildContext context, int index) {
               return Card(
                 shape: RoundedRectangleBorder(
@@ -56,14 +57,29 @@ class _TodayFreshRecipeWidgetState extends State<TodayFreshRecipeWidget> {
                                 flex: 1,
                                 child: Align(
                                     alignment: Alignment.topLeft,
-                                    child: Icon(Icons.heart_broken)),
+                                    child: InkWell(
+                                      onTap: () {
+                                        var user_uid = "3";
+                                        today_recipe_prov
+                                            .addFavouriteRecipesToUser(
+                                                today_recipe_prov
+                                                    .recipeList![index].docId!,
+                                                isAddFav == false
+                                                    ? true
+                                                    : false);
+                                      },
+                                      child: Icon(
+                                        Icons.favorite,
+                                        color: Colors.grey,
+                                      ),
+                                    )),
                               ),
                               Expanded(
                                 flex: 5,
                                 child: Align(
                                   alignment: Alignment.topRight,
                                   child: Image.network(
-                                    "${today_recipe_prov.data_list[index]['image']}",
+                                    "${today_recipe_prov.recipeList![index].image}",
                                     width: 180,
                                     height: 150,
                                   ),
@@ -74,7 +90,7 @@ class _TodayFreshRecipeWidgetState extends State<TodayFreshRecipeWidget> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5),
                             child: Text(
-                              "${today_recipe_prov.data_list[index]['category']}",
+                              "${today_recipe_prov.recipeList![index].category}",
                               style: const TextStyle(
                                   color: Color(0xff1F95B3), fontSize: 13),
                             ),
@@ -82,7 +98,7 @@ class _TodayFreshRecipeWidgetState extends State<TodayFreshRecipeWidget> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5),
                             child: Text(
-                              "${today_recipe_prov.data_list[index]['title']}",
+                              "${today_recipe_prov.recipeList![index].title}",
                               style: TextStyle(
                                   color: Colors.black,
                                   fontSize: 16,
@@ -125,7 +141,7 @@ class _TodayFreshRecipeWidgetState extends State<TodayFreshRecipeWidget> {
                           Padding(
                             padding: const EdgeInsets.symmetric(vertical: 5),
                             child: Text(
-                              "${today_recipe_prov.data_list[index]['number_of_calories']} calories",
+                              "${today_recipe_prov.recipeList![index].number_of_calories} calories",
                               style: TextStyle(color: Color(0xffF55A00)),
                             ),
                           ),
