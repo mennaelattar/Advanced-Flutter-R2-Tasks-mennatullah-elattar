@@ -58,7 +58,6 @@ class _TodayFreshRecipeWidgetState extends State<TodayFreshRecipeWidget> {
                                               alignment: Alignment.topLeft,
                                               child: InkWell(
                                                 onTap: () {
-                                                  var user_uid = "3";
                                                   today_recipe_prov
                                                       .addFavouriteRecipesToUser(
                                                           today_recipe_prov
